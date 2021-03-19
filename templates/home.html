@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en-us">
+<head>
+	<title>Home</title>
+	<link rel="stylesheet" type="text/css" href="../static/style.css">
+</head>
+<body>
+	<header>
+		<div class="container">
+		<div id="brandname">
+			Machine Learning App with Flask
+		</div>
+		<h2>Fake & Satire Detector For articles</h2>
+	</div>
+	</header>
+	<div class="container">
+		<form action="{{ url_for('predict')}}" method="POST">
+		<p>Enter Your Article Here</p>
+            <label>
+                <textarea name="message" rows="10" cols="40"></textarea>
+            </label>
+            <br/>
+		<input type="submit" value="predict">
+	</form>
+	</div>
+</body>
+</html>
