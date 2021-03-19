@@ -5,7 +5,6 @@ from flask import render_template, request, Flask
 from pattern.text import Sentence
 from pattern.text.en import sentiment, parse, modality
 from transformers import AutoTokenizer, AutoModel
-
 MODEL_PATH = 'data/finalized_model.pkl'
 file = open(MODEL_PATH, 'rb')
 model_clf = pickle.load(file)
@@ -23,7 +22,6 @@ def preprocess(sentences):
     # Tokenize sentences
     tokenizer = AutoTokenizer.from_pretrained("sentence-transformers/distilbert-base-nli-stsb-mean-tokens")
     model = AutoModel.from_pretrained("sentence-transformers/distilbert-base-nli-stsb-mean-tokens")
-
     encoded_input = tokenizer(sentences.to_list(), padding=True, truncation=True, max_length=128, return_tensors='pt')
 
     # Compute token embeddings
@@ -65,7 +63,6 @@ def predict():
     :return: a result of prediction in HTML page
     """
 
-    res = ''
     if request.method == 'POST':
         message = request.form['message']
         data = pd.Series(message)
