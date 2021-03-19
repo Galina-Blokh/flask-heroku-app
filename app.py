@@ -21,8 +21,8 @@ def mean_pooling(model_output, attention_mask):
 
 def preprocess(sentences):
     # Tokenize sentences
-    tokenizer = AutoTokenizer.from_pretrained("mrm8488/bert-tiny-finetuned-squadv2")
-    model = AutoModel.from_pretrained("mrm8488/bert-tiny-finetuned-squadv2")
+    tokenizer = AutoTokenizer.from_pretrained("sentence-transformers/distilbert-base-nli-stsb-mean-tokens")
+    model = AutoModel.from_pretrained("sentence-transformers/distilbert-base-nli-stsb-mean-tokens")
 
     encoded_input = tokenizer(sentences.to_list(), padding=True, truncation=True, max_length=128, return_tensors='pt')
 
