@@ -10,6 +10,7 @@ MODEL_PATH = 'data/finalized_model.pkl'
 file = open(MODEL_PATH, 'rb')
 model_clf = pickle.load(file)
 
+app = Flask(__name__)
 
 def mean_pooling(model_output, attention_mask):
     token_embeddings = model_output[0]  # First element of model_output contains all token embeddings
@@ -46,7 +47,6 @@ def preprocess(sentences):
     return input_matrix
 
 
-app = Flask(__name__)
 
 
 @app.route('/')
@@ -81,5 +81,5 @@ def predict():
 
 
 if __name__ == '__main__':
-    app.run(debug=True)
+    app.run(debug=True,threaded=True)
 
