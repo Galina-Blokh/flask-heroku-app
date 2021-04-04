@@ -1,4 +1,5 @@
 import pickle
+
 import pandas as pd
 import torch
 from flask import render_template, request, Flask
@@ -9,10 +10,8 @@ from transformers import AutoTokenizer, AutoModel
 MODEL_PATH = 'data/finalized_model.pkl'
 file = open(MODEL_PATH, 'rb')
 model_clf = pickle.load(file)
-app = Flask(__name__)
 
 
-@app.template_global()
 def mean_pooling(model_output, attention_mask):
     token_embeddings = model_output[0]  # First element of model_output contains all token embeddings
     input_mask_expanded = attention_mask.unsqueeze(-1).expand(token_embeddings.size()).float()
@@ -21,11 +20,10 @@ def mean_pooling(model_output, attention_mask):
     return sum_embeddings / sum_mask
 
 
-@app.template_global()
 def preprocess(sentences):
     # Tokenize sentences
-    tokenizer = AutoTokenizer.from_pretrained("sentence-transformers/distilbert-base-nli-stsb-mean-tokens")
-    model = AutoModel.from_pretrained("sentence-transformers/distilbert-base-nli-stsb-mean-tokens")
+    tokenizer = AutoTokenizer.from_pretrained("sentence-transformers/ce-ms-marco-TinyBERT-L-4")
+    model = AutoModel.from_pretrained("sentence-transformers/ce-ms-marco-TinyBERT-L-4")
 
     encoded_input = tokenizer(sentences.to_list(), padding=True, truncation=True, max_length=128, return_tensors='pt')
 
@@ -49,6 +47,9 @@ def preprocess(sentences):
     return input_matrix
 
 
+app = Flask(__name__)
+
+
 @app.route('/')
 def home():
     """ This is the homepage of our API.
@@ -65,18 +66,17 @@ def predict():
     :return: a result of prediction in HTML page
     """
 
-    if request.method == 'POST':
-        message = request.form['message']
-        data = pd.Series(message)
-        vect = preprocess(data)
-        prediction = model_clf.predict(vect)
-        output = prediction[0]
-        if output == 0:
-            my_prediction = "Fake News"
-        else:
-            my_prediction = "Satire"
-        res = render_template('result.html', prediction=my_prediction)
-        return res
+    message = request.form['message']
+    data = pd.Series(message)
+    vect = preprocess(data)
+    prediction = model_clf.predict(vect)
+    output = prediction[0]
+    if output == 0:
+        my_prediction = "Fake News"
+    else:
+        my_prediction = "Satire"
+    res = render_template('result.html', prediction=my_prediction)
+    return res
 
 
 if __name__ == '__main__':
