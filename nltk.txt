@@ -1,3 +1,2 @@
 wordnet
 pros_cons
-punkt
