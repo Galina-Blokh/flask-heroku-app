@@ -1,5 +1,4 @@
 import pickle
-
 import pandas as pd
 import torch
 from flask import render_template, request, Flask
