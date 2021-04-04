@@ -1,1 +1,1 @@
-wordnet_ic
+wordnet
