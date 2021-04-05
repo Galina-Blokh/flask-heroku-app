@@ -42,13 +42,7 @@ header h2{
 	color:#fff;
 }
 
-.btn-info {background-color: #2196F3;
-	height:40px;
-	width:100px;} /* Blue */
-.btn-info:hover {background: #0b7dda;}
-
-
-.resultss{
+.results{
 	border-radius: 15px 50px;
     background: #345fe4;
     padding: 20px;

@@ -1,10 +1,10 @@
 import pickle
 import pandas as pd
-import torch
-from flask import render_template, request, Flask
 from pattern.text import Sentence
 from pattern.text.en import sentiment, parse, modality
+import torch
 from transformers import AutoTokenizer, AutoModel
+from flask import render_template, request, Flask
 
 MODEL_PATH = 'data/finalized_model.pkl'
 file = open(MODEL_PATH, 'rb')
